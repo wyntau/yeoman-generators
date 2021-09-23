@@ -1,0 +1,11 @@
+{
+  "name": "<%= pkgName %>",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsc --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "wyntau",
+  "license": "MIT"
+}
