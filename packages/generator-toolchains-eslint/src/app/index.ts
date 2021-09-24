@@ -49,7 +49,8 @@ export default class extends Generator<IOptions> {
   }
 
   writing(): void {
-    this.fs.copy(this.templatePath('.'), this.destinationPath(''), { globOptions: { dot: true } });
+    this.addDevDependencies(['eslint']);
+    this.fs.copy(this.templatePath('.'), this.destinationPath('.'), { globOptions: { dot: true } });
 
     if (!this.options.toolchainsTypescript && !this.options.withMonorepo && !this.options.toolchainsPrettier) {
       return;
@@ -58,26 +59,21 @@ export default class extends Generator<IOptions> {
     const eslintJson: any = this.fs.readJSON(this.destinationPath('.eslintrc.json'));
 
     if (this.options.toolchainsTypescript) {
+      this.addDevDependencies(['@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', 'typescript']);
+
       this.fs.append(this.destinationPath('.eslintignore'), '*.js\n*.d.ts\n');
 
-      if (eslintJson.parserOptions.project.indexOf('./tsconfig.json') < 0) {
-        eslintJson.parserOptions.project.push('./tsconfig.json');
-      }
-      if (eslintJson.extends.indexOf('plugin:@typescript-eslint/recommended') < 0) {
-        eslintJson.extends.push('plugin:@typescript-eslint/recommended');
-      }
+      eslintJson.parserOptions.project.push('./tsconfig.json');
+      eslintJson.extends.push('plugin:@typescript-eslint/recommended');
     }
 
     if (this.options.toolchainsPrettier) {
-      if (eslintJson.extends.indexOf('plugin:prettier/recommended') < 0) {
-        eslintJson.extends.push('plugin:prettier/recommended');
-      }
+      this.addDevDependencies(['eslint-config-prettier', 'eslint-plugin-prettier', 'prettier']);
+      eslintJson.extends.push('plugin:prettier/recommended');
     }
 
     if (this.options.withMonorepo && this.options.toolchainsTypescript) {
-      if (eslintJson.parserOptions.project.indexOf('./packages/**/tsconfig.json') < 0) {
-        eslintJson.parserOptions.project.push('./packages/**/tsconfig.json');
-      }
+      eslintJson.parserOptions.project.push('./packages/**/tsconfig.json');
     }
 
     this.fs.writeJSON(this.destinationPath('.eslintrc.json'), eslintJson);
