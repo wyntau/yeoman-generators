@@ -1,8 +1,8 @@
 import Generator from 'yeoman-generator';
 
 export interface IOptions {
-  toolchainsTypescript: boolean;
-  toolchainsPrettier: boolean;
+  toolchainTypescript: boolean;
+  toolchainPrettier: boolean;
   withMonorepo: boolean;
 }
 
@@ -15,8 +15,8 @@ export default class extends Generator<IOptions> {
   props: IProps = {};
 
   initializing(): void {
-    this.option('toolchains-typescript', { type: Boolean, description: '启用 typescript 支持', default: true });
-    this.option('toolchains-prettier', { type: Boolean, description: '启用 prettier 支持', default: true });
+    this.option('toolchain-typescript', { type: Boolean, description: '启用 typescript 支持', default: true });
+    this.option('toolchain-prettier', { type: Boolean, description: '启用 prettier 支持', default: true });
     this.option('with-monorepo', { type: Boolean, description: '启用 monorepo 支持', default: false });
   }
 
@@ -24,17 +24,17 @@ export default class extends Generator<IOptions> {
     this.props = await this.prompt<IProps>([
       {
         type: 'confirm',
-        name: 'options.toolchainsTypescript',
+        name: 'options.toolchainTypescript',
         message: '启用 typescript 支持',
-        default: this.options.toolchainsTypescript ?? true,
-        when: this.options.toolchainsTypescript === undefined || this.options.toolchainsTypescript === null,
+        default: this.options.toolchainTypescript ?? true,
+        when: this.options.toolchainTypescript === undefined || this.options.toolchainTypescript === null,
       },
       {
         type: 'confirm',
-        name: 'options.toolchainsPrettier',
+        name: 'options.toolchainPrettier',
         message: '启用 prettier 支持',
-        default: this.options.toolchainsPrettier ?? true,
-        when: this.options.toolchainsPrettier === undefined || this.options.toolchainsPrettier === null,
+        default: this.options.toolchainPrettier ?? true,
+        when: this.options.toolchainPrettier === undefined || this.options.toolchainPrettier === null,
       },
       {
         type: 'confirm',
@@ -52,13 +52,13 @@ export default class extends Generator<IOptions> {
     this.addDevDependencies(['eslint']);
     this.fs.copy(this.templatePath('.'), this.destinationPath('.'), { globOptions: { dot: true } });
 
-    if (!this.options.toolchainsTypescript && !this.options.withMonorepo && !this.options.toolchainsPrettier) {
+    if (!this.options.toolchainTypescript && !this.options.withMonorepo && !this.options.toolchainPrettier) {
       return;
     }
 
     const eslintJson: any = this.fs.readJSON(this.destinationPath('.eslintrc.json'));
 
-    if (this.options.toolchainsTypescript) {
+    if (this.options.toolchainTypescript) {
       this.addDevDependencies(['@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', 'typescript']);
 
       this.fs.append(this.destinationPath('.eslintignore'), '*.js\n*.d.ts\n');
@@ -67,12 +67,12 @@ export default class extends Generator<IOptions> {
       eslintJson.extends.push('plugin:@typescript-eslint/recommended');
     }
 
-    if (this.options.toolchainsPrettier) {
+    if (this.options.toolchainPrettier) {
       this.addDevDependencies(['eslint-config-prettier', 'eslint-plugin-prettier', 'prettier']);
       eslintJson.extends.push('plugin:prettier/recommended');
     }
 
-    if (this.options.withMonorepo && this.options.toolchainsTypescript) {
+    if (this.options.withMonorepo && this.options.toolchainTypescript) {
       eslintJson.parserOptions.project.push('./packages/**/tsconfig.json');
     }
 

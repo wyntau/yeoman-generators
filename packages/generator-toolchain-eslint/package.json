@@ -1,7 +1,7 @@
 {
-  "name": "@wyntau/generator-toolchains-npm",
+  "name": "@wyntau/generator-toolchain-eslint",
   "version": "0.0.1",
-  "description": "yeoman generator for toolchain npm",
+  "description": "yeoman generator for toolchain eslint",
   "main": "generators/app/index.js",
   "repository": "git@github.com:wyntau/yeoman-generators.git",
   "author": "wyntau <github@wtliu.com>",

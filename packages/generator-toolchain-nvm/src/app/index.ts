@@ -7,7 +7,7 @@ export default class extends Generator {
     this.props = await this.prompt([
       {
         type: 'confirm',
-        name: 'toolchains.nvm.enable',
+        name: 'toolchain.nvm.enable',
         message: '添加 nvm 配置文件',
         default: true,
       },
