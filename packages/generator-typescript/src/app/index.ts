@@ -2,7 +2,7 @@ import Generator from 'yeoman-generator';
 import chalk from 'chalk';
 import yosay from 'yosay';
 
-module.exports = class extends Generator {
+export default class extends Generator {
   props: Record<string, any> = {};
 
   prompting() {
@@ -31,4 +31,4 @@ module.exports = class extends Generator {
   install() {
     this.installDependencies();
   }
-};
+}
