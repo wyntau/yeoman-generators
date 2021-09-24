@@ -2,8 +2,8 @@ import Generator from 'yeoman-generator';
 
 export interface IOptions {
   toolchainsTypescript: boolean;
-  toolchainsMonorepo: boolean;
   toolchainsPrettier: boolean;
+  withMonorepo: boolean;
 }
 
 export interface IProps {
@@ -17,7 +17,7 @@ export default class extends Generator<IOptions> {
   initializing(): void {
     this.option('toolchains-typescript', { type: Boolean, description: '启用 typescript 支持', default: true });
     this.option('toolchains-prettier', { type: Boolean, description: '启用 prettier 支持', default: true });
-    this.option('toolchains-monorepo', { type: Boolean, description: '启用 monorepo 支持', default: false });
+    this.option('with-monorepo', { type: Boolean, description: '启用 monorepo 支持', default: false });
   }
 
   async prompting(): Promise<void> {
@@ -26,22 +26,22 @@ export default class extends Generator<IOptions> {
         type: 'confirm',
         name: 'options.toolchainsTypescript',
         message: '启用 typescript 支持',
-        default: true,
-        when: this.options.toolchainsTypescript === undefined,
+        default: this.options.toolchainsTypescript ?? true,
+        when: this.options.toolchainsTypescript === undefined || this.options.toolchainsTypescript === null,
       },
       {
         type: 'confirm',
         name: 'options.toolchainsPrettier',
         message: '启用 prettier 支持',
-        default: true,
-        when: this.options.toolchainsPrettier === undefined,
+        default: this.options.toolchainsPrettier ?? true,
+        when: this.options.toolchainsPrettier === undefined || this.options.toolchainsPrettier === null,
       },
       {
         type: 'confirm',
-        name: 'options.toolchainsMonorepo',
+        name: 'options.withMonorepo',
         message: '启用 monorepo 支持',
-        default: false,
-        when: this.options.toolchainsMonorepo === undefined,
+        default: this.options.withMonorepo ?? false,
+        when: this.options.withMonorepo === undefined || this.options.withMonorepo === null,
       },
     ]);
 
@@ -51,7 +51,7 @@ export default class extends Generator<IOptions> {
   writing(): void {
     this.fs.copy(this.templatePath('.'), this.destinationPath(''), { globOptions: { dot: true } });
 
-    if (!this.options.toolchainsTypescript && !this.options.toolchainsMonorepo && !this.options.toolchainsPrettier) {
+    if (!this.options.toolchainsTypescript && !this.options.withMonorepo && !this.options.toolchainsPrettier) {
       return;
     }
 
@@ -74,7 +74,7 @@ export default class extends Generator<IOptions> {
       }
     }
 
-    if (this.options.toolchainsMonorepo && this.options.toolchainsTypescript) {
+    if (this.options.withMonorepo && this.options.toolchainsTypescript) {
       if (eslintJson.parserOptions.project.indexOf('./packages/**/tsconfig.json') < 0) {
         eslintJson.parserOptions.project.push('./packages/**/tsconfig.json');
       }
