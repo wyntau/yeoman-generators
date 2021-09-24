@@ -1,1 +1,111 @@
 #!/bin/bash
+
+main(){
+  # 最大检查天数
+  local days_count_the_lint=3
+  # 每批最大lint文件个数
+  local files_count_per_batch=10
+  # 时间格式
+  local date_format="%Y-%m-%d %H:%M:%S %z"
+
+  local commit_date_latest
+  local commit_date_before
+  local commit_hash_latest
+  local commit_hash_before
+
+  # 获取最新 commit 的提交时间
+  # 格式 %Y-%m-%d %H:%M:%S %z
+  commit_date_latest="$( git_latest_commit_date HEAD )"
+  # 获取 days_count_the_lint 天前的提交时间
+  if [ "$(uname)" = "Darwin" ]; then
+    commit_date_before="$( date -j -v-${days_count_the_lint}d -f "$date_format" "$commit_date_latest" +"$date_format" )"
+  else
+    commit_date_before="$( TZ="${TZ:-Asia/Shanghai}" date -d "$commit_date_latest $days_count_the_lint days ago" +"$date_format" )"
+  fi;
+
+  commit_hash_latest="$( git log -1 --pretty=format:'%H' HEAD)"
+  commit_hash_before="$( git log -1 --date-order --before="$commit_date_before" --pretty=format:'%H' )"
+
+  echo "==> Latest commit date: $commit_date_latest $commit_hash_latest"
+  echo "==> Oldest commit date: $commit_date_before $commit_hash_before"
+
+  local files_diff
+  # 最近 days_count_the_lint 天内修改的文件列表, 过滤掉删除的文件: --diff-filter=ACMR
+  # 新版git 可以使用 --diff-filter=d (小写) 进行过滤，但是castle中git(1.8.3)不支持
+  files_diff=$( git --no-pager diff --diff-filter=ACMR --name-only "$commit_hash_before" HEAD )
+
+  local files_recent_array=()
+  local files_recent_list
+  local file
+  local file_commit_date_latest
+  for file in $files_diff; do
+    file_commit_date_latest="$( git_latest_commit_date "$file" )"
+    if [ "$file_commit_date_latest" \> "$commit_date_before" ]; then
+      files_recent_array+=("$( echo "$file_commit_date_latest" | sed -e 's/ /_/g' )|$file")
+    fi;
+  done;
+
+  files_recent_list="$( printf '%s\n' "${files_recent_array[@]}" )"
+
+  echo
+  echo "==> All files recent of \`git diff $commit_hash_before..$commit_hash_latest\`:"
+  echo "$files_recent_list"
+
+  if [ $# = 0 ]; then
+    exit 0
+  fi;
+
+  for arg in "$@"; do
+    invoke "$arg" "$files_recent_list"
+  done;
+}
+
+invoke(){
+  local lint_command
+  local lint_files
+
+  if [ "$1" = "eslint" ]; then
+    lint_command="eslint_check_files"
+    lint_files=$( eslint_list_files "$2" | sort -rn )
+  elif [ "$1" = "stylelint" ]; then
+    lint_command="stylelint_check_files"
+    lint_files=$( stylelint_list_files "$2" | sort -rn )
+  fi;
+
+  echo
+  echo "==> All files to $1:"
+  echo "$lint_files"
+
+  # 使用 cut 提取出文件名数组
+  # 不使用 while IFS='' read -r line; do array+=("$line"); done < <(mycommand)
+  # 因为 lint_files 中最后有新行, 会导致空数组长度为1
+  local lint_file_names=($( echo "$lint_files" | cut -f2 -d'|' ))
+
+  local index=0
+  while [ "$index" -lt "${#lint_file_names[@]}" ]; do
+    if ! ( "$lint_command" "${lint_file_names[@]:$index:$files_count_per_batch}" ); then
+      exit 1
+    fi;
+    (( index += files_count_per_batch ))
+  done;
+}
+
+eslint_list_files(){
+  echo "$1" | grep -e "\.vue$" -e "\.tsx\?$" -e "\.jsx\?$"
+}
+eslint_check_files(){
+  DEBUG=eslint:cli-engine npx eslint --ext .ts,.tsx,.js,.jsx,.vue "$@"
+}
+
+stylelint_list_files(){
+  echo "$1" | grep -e "\.css$" -e "\.scss$" -e "\.vue$"
+}
+stylelint_check_files(){
+  DEBUG=stylelint:standalone npx stylelint --allow-empty-input "$@"
+}
+
+git_latest_commit_date(){
+  git log -1 --date=iso8601 --pretty=format:'%cd' "$@"
+}
+
+main "$@"
