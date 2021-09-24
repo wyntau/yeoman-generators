@@ -1,6 +1,8 @@
 {
   "root": true,
   "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {},
     "project": []
   },
   "extends": ["eslint:recommended"]

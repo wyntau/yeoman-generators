@@ -3,6 +3,12 @@ import Generator from 'yeoman-generator';
 export interface IOptions {
   toolchainTypescript: boolean;
   toolchainPrettier: boolean;
+
+  libraryReact: boolean;
+  libraryReactWithHooks: boolean;
+
+  libraryVue: boolean;
+
   withMonorepo: boolean;
 }
 
@@ -38,6 +44,31 @@ export default class extends Generator<IOptions> {
       },
       {
         type: 'confirm',
+        name: 'options.libraryReact',
+        message: '启用 react 支持',
+        default: this.options.libraryReact ?? false,
+        when: this.options.libraryReact === undefined || this.options.libraryReact === null,
+      },
+      {
+        type: 'confirm',
+        name: 'options.libraryReactWithHooks',
+        message: '启用 react hooks 支持',
+        default: this.options.libraryReactWithHooks ?? false,
+        when: (answers) =>
+          (this.options.libraryReactWithHooks === undefined || this.options.libraryReactWithHooks === null) &&
+          answers.options?.libraryReact === true,
+      },
+      {
+        type: 'confirm',
+        name: 'options.libraryVue',
+        message: '启用 vue 支持',
+        default: this.options.libraryVue ?? false,
+        when: (answers) =>
+          (this.options.libraryVue === undefined || this.options.libraryVue === null) &&
+          answers.options?.libraryReact !== true,
+      },
+      {
+        type: 'confirm',
         name: 'options.withMonorepo',
         message: '启用 monorepo 支持',
         default: this.options.withMonorepo ?? false,
@@ -63,8 +94,30 @@ export default class extends Generator<IOptions> {
 
       this.fs.append(this.destinationPath('.eslintignore'), '*.js\n*.d.ts\n');
 
+      eslintJson.parser = '@typescript-eslint/parser';
       eslintJson.parserOptions.project.push('./tsconfig.json');
       eslintJson.extends.push('plugin:@typescript-eslint/recommended');
+    }
+
+    if (this.options.libraryReact) {
+      this.addDevDependencies(['eslint-plugin-react']);
+      eslintJson.extends.push('plugin:react/recommended');
+    }
+
+    if (this.options.libraryReactWithHooks) {
+      this.addDevDependencies(['eslint-plugin-react-hooks']);
+      eslintJson.extends.push('plugin:react-hooks/recommended');
+    }
+
+    if (this.options.libraryVue) {
+      this.addDevDependencies(['eslint-plugin-vue', 'vue-eslint-parser']);
+      eslintJson.extends.push('plugin:vue/recommended');
+
+      if (this.options.toolchainTypescript) {
+        eslintJson.parserOptions.parser = eslintJson.parser;
+      }
+
+      eslintJson.parser = 'vue-eslint-parser';
     }
 
     if (this.options.toolchainPrettier) {
