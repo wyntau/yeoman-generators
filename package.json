@@ -4,7 +4,7 @@
   "description": "yeoman generators",
   "main": "index.js",
   "repository": "git@github.com:wyntau/yeoman-generators.git",
-  "author": "wyntau <wyntau@outlook.com>",
+  "author": "wyntau <github@wtliu.com>",
   "license": "MIT",
   "private": true,
   "workspaces": [
