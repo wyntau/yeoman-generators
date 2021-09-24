@@ -3,3 +3,7 @@ node_modules
 
 package-lock.json
 yarn-error.log
+
+# compiled files
+**/generators/app/*.js
+**/generators/app/*.d.ts
