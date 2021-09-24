@@ -4,16 +4,14 @@ export default class extends Generator {
   props: Record<string, any> = {};
 
   async prompting(): Promise<void> {
-    const prompts = [
+    this.props = await this.prompt([
       {
         type: 'confirm',
-        name: 'someAnswer',
-        message: 'Would you like to enable this option?',
+        name: 'toolchains.nvm.enable',
+        message: '添加 nvm 配置文件',
         default: true,
       },
-    ];
-
-    this.props = await this.prompt(prompts);
+    ]);
   }
 
   writing(): void {
