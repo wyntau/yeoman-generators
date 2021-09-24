@@ -4,10 +4,10 @@ export interface IOptions {
   toolchainTypescript: boolean;
   toolchainPrettier: boolean;
 
-  libraryReact: boolean;
-  libraryReactWithHooks: boolean;
+  targetReact: boolean;
+  targetReactWithHooks: boolean;
 
-  libraryVue: boolean;
+  targetVue: boolean;
 
   withMonorepo: boolean;
 }
@@ -44,28 +44,28 @@ export default class extends Generator<IOptions> {
       },
       {
         type: 'confirm',
-        name: 'options.libraryReact',
+        name: 'options.targetReact',
         message: '启用 react 支持',
-        default: this.options.libraryReact ?? false,
-        when: this.options.libraryReact === undefined || this.options.libraryReact === null,
+        default: this.options.targetReact ?? false,
+        when: this.options.targetReact === undefined || this.options.targetReact === null,
       },
       {
         type: 'confirm',
-        name: 'options.libraryReactWithHooks',
+        name: 'options.targetReactWithHooks',
         message: '启用 react hooks 支持',
-        default: this.options.libraryReactWithHooks ?? false,
+        default: this.options.targetReactWithHooks ?? false,
         when: (answers) =>
-          (this.options.libraryReactWithHooks === undefined || this.options.libraryReactWithHooks === null) &&
-          answers.options?.libraryReact === true,
+          (this.options.targetReactWithHooks === undefined || this.options.targetReactWithHooks === null) &&
+          answers.options?.targetReact === true,
       },
       {
         type: 'confirm',
-        name: 'options.libraryVue',
+        name: 'options.targetVue',
         message: '启用 vue 支持',
-        default: this.options.libraryVue ?? false,
+        default: this.options.targetVue ?? false,
         when: (answers) =>
-          (this.options.libraryVue === undefined || this.options.libraryVue === null) &&
-          answers.options?.libraryReact !== true,
+          (this.options.targetVue === undefined || this.options.targetVue === null) &&
+          answers.options?.targetReact !== true,
       },
       {
         type: 'confirm',
@@ -99,17 +99,17 @@ export default class extends Generator<IOptions> {
       eslintJson.extends.push('plugin:@typescript-eslint/recommended');
     }
 
-    if (this.options.libraryReact) {
+    if (this.options.targetReact) {
       this.addDevDependencies(['eslint-plugin-react']);
       eslintJson.extends.push('plugin:react/recommended');
     }
 
-    if (this.options.libraryReactWithHooks) {
+    if (this.options.targetReactWithHooks) {
       this.addDevDependencies(['eslint-plugin-react-hooks']);
       eslintJson.extends.push('plugin:react-hooks/recommended');
     }
 
-    if (this.options.libraryVue) {
+    if (this.options.targetVue) {
       this.addDevDependencies(['eslint-plugin-vue', 'vue-eslint-parser']);
       eslintJson.extends.push('plugin:vue/recommended');
 
