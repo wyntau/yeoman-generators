@@ -20,7 +20,7 @@
   "scripts": {
     "prepublishOnly": "npm run clean && npm run build",
     "clean": "rm -rf generators/app/*.{js,d.ts}",
-    "dev": "tsc -w",
+    "watch": "tsc -w",
     "build": "tsc"
   }
 }

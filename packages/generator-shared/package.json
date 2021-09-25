@@ -9,7 +9,7 @@
   "scripts": {
     "prepublishOnly": "npm run clean && npm run build",
     "clean": "rm -rf dist",
-    "dev": "tsc -w",
+    "watch": "tsc -w",
     "build": "tsc"
   },
   "dependencies": {
