@@ -30,8 +30,8 @@
     "build": "lerna run build",
     "clean": "leran run clean",
     "ci:eslint": "scripts/ci/run eslint",
-    "eslint": "eslint src",
-    "eslint-fix": "eslint --fix src",
+    "eslint": "DEBUG=eslint:cli-engine eslint .",
+    "eslint-fix": "DEBUG=eslint:cli-engine eslint --fix .",
     "prepare": "husky install || exit 0"
   },
   "engines": {
