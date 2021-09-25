@@ -23,5 +23,8 @@
     "clean": "rm -rf generators/app/*.{js,d.ts}",
     "watch": "tsc -w",
     "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.3"
   }
 }
