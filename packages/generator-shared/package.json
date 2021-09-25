@@ -1,6 +1,6 @@
 {
   "name": "@wyntau/generator-shared",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "generator shared misc",
   "main": "dist/index.js",
   "repository": "git@github.com:wyntau/yeoman-generators.git",
