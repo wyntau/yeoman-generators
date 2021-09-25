@@ -8,6 +8,11 @@ export default class extends Generator {
 
   writing(): void {
     this.fs.copy(this.templatePath('.yarnrc'), this.destinationPath('.yarnrc'));
+    this.fs.extendJSON(this.destinationPath('package.json'), {
+      engines: {
+        npm: 'use-yarn-please',
+      },
+    });
   }
 
   end(): void {
