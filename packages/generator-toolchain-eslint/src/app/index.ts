@@ -10,10 +10,11 @@ export interface IProps {
   [x: string]: any;
 }
 
-export default class extends Generator<IOptions> {
+export default class GeneratorToolchainEslint extends Generator<IOptions> {
   props: IProps = {};
 
-  initializing(): void {
+  constructor(args: string | string[], options: IOptions) {
+    super(args, options);
     this.option('toolchain-typescript', { type: Boolean, description: '启用 typescript 支持', default: true });
     this.option('toolchain-prettier', { type: Boolean, description: '启用 prettier 支持', default: true });
     this.option('with-monorepo', { type: Boolean, description: '启用 monorepo 支持', default: false });
