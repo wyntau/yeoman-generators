@@ -44,15 +44,6 @@ export default class extends Generator<IOptions> {
       },
       {
         type: 'confirm',
-        name: 'options.targetReactWithHooks',
-        message: '启用 react hooks 支持',
-        default: this.options.targetReactWithHooks ?? false,
-        when: (answers) =>
-          (this.options.targetReactWithHooks === undefined || this.options.targetReactWithHooks === null) &&
-          answers.options?.targetReact === true,
-      },
-      {
-        type: 'confirm',
         name: 'options.targetVue',
         message: '启用 vue 支持',
         default: this.options.targetVue ?? false,
@@ -95,13 +86,8 @@ export default class extends Generator<IOptions> {
     }
 
     if (this.options.targetReact) {
-      devDependencies.push('eslint-plugin-react');
-      eslintJson.extends.push('plugin:react/recommended');
-    }
-
-    if (this.options.targetReactWithHooks) {
-      devDependencies.push('eslint-plugin-react-hooks');
-      eslintJson.extends.push('plugin:react-hooks/recommended');
+      devDependencies.push('eslint-plugin-react', 'eslint-plugin-react-hooks');
+      eslintJson.extends.push('plugin:react/recommended', 'plugin:react-hooks/recommended');
     }
 
     if (this.options.targetVue) {
