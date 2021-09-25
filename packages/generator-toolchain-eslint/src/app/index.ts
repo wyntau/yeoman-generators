@@ -79,8 +79,10 @@ export default class extends Generator<IOptions> {
     this.options = Object.assign(this.options, this.props.options);
   }
 
-  writing(): void {
-    this.addDevDependencies(['eslint']);
+  async writing(): Promise<void> {
+    const devDependencies: Array<string> = [];
+
+    devDependencies.push('eslint');
     this.fs.copy(this.templatePath('.'), this.destinationPath('.'), { globOptions: { dot: true } });
 
     if (!this.options.toolchainTypescript && !this.options.withMonorepo && !this.options.toolchainPrettier) {
@@ -90,7 +92,7 @@ export default class extends Generator<IOptions> {
     const eslintJson: any = this.fs.readJSON(this.destinationPath('.eslintrc.json'));
 
     if (this.options.toolchainTypescript) {
-      this.addDevDependencies(['@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', 'typescript']);
+      devDependencies.push('@typescript-eslint/eslint-plugin', '@typescript-eslint/parser', 'typescript');
 
       this.fs.append(this.destinationPath('.eslintignore'), '*.js\n*.d.ts\n');
 
@@ -100,17 +102,17 @@ export default class extends Generator<IOptions> {
     }
 
     if (this.options.targetReact) {
-      this.addDevDependencies(['eslint-plugin-react']);
+      devDependencies.push('eslint-plugin-react');
       eslintJson.extends.push('plugin:react/recommended');
     }
 
     if (this.options.targetReactWithHooks) {
-      this.addDevDependencies(['eslint-plugin-react-hooks']);
+      devDependencies.push('eslint-plugin-react-hooks');
       eslintJson.extends.push('plugin:react-hooks/recommended');
     }
 
     if (this.options.targetVue) {
-      this.addDevDependencies(['eslint-plugin-vue', 'vue-eslint-parser']);
+      devDependencies.push('eslint-plugin-vue', 'vue-eslint-parser');
       eslintJson.extends.push('plugin:vue/recommended');
 
       if (this.options.toolchainTypescript) {
@@ -121,7 +123,7 @@ export default class extends Generator<IOptions> {
     }
 
     if (this.options.toolchainPrettier) {
-      this.addDevDependencies(['eslint-config-prettier', 'eslint-plugin-prettier', 'prettier']);
+      devDependencies.push('eslint-config-prettier', 'eslint-plugin-prettier', 'prettier');
       eslintJson.extends.push('plugin:prettier/recommended');
     }
 
@@ -130,5 +132,6 @@ export default class extends Generator<IOptions> {
     }
 
     this.fs.writeJSON(this.destinationPath('.eslintrc.json'), eslintJson);
+    await this.addDevDependencies(devDependencies);
   }
 }
