@@ -29,4 +29,15 @@ export interface IGeneratorOptions {
 
   /** 启用 travis */
   toolchainTravis: boolean;
+
+  /** 目标 react 技术栈 */
+  targetReact: boolean;
+  /** 目标 react 技术栈, 并且带有 react hooks 支持 */
+  targetReactWithHooks: boolean;
+  /** 目标 vue 技术栈 */
+  targetVue: boolean;
+  /** 目标 miniprogram 微信小程序技术栈 */
+  targetMp: boolean;
+  /** 目标 mmp 美团小程序技术栈 */
+  targetMmp: boolean;
 }
