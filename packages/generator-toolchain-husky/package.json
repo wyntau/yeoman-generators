@@ -18,6 +18,7 @@
     "yeoman-generator": "^5.4.2"
   },
   "scripts": {
+    "prepublishOnly": "npm run build",
     "build": "tsc"
   }
 }
