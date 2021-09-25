@@ -2,7 +2,7 @@ import Generator from 'yeoman-generator';
 import chalk from 'chalk';
 
 export interface IOptions {
-  toolchainYarn: boolean;
+  toolchainNpm: boolean;
 }
 
 export default class extends Generator<IOptions> {
@@ -11,7 +11,9 @@ export default class extends Generator<IOptions> {
   }
 
   end(): void {
-    const initCommand = this.options.toolchainYarn ? 'yarn init' : 'npm init';
-    this.log(['', `✨  初始化完毕, 请通过 \`${chalk.red(initCommand)}\` 补充项目信息`, ''].join('\n'));
+    if (!this.options.toolchainNpm) {
+      return;
+    }
+    this.log(['', `✨  初始化完毕, 请通过 \`${chalk.red('npm init')}\` 补充项目信息`, ''].join('\n'));
   }
 }
