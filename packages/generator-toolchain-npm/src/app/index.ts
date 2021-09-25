@@ -1,11 +1,8 @@
 import Generator from 'yeoman-generator';
 import chalk from 'chalk';
+import { IGeneratorOptions } from '@wyntau/generator-shared';
 
-export interface IOptions {
-  toolchainNpm: boolean;
-}
-
-export default class extends Generator<IOptions> {
+export default class extends Generator<IGeneratorOptions> {
   writing(): void {
     this.fs.copy(this.templatePath('.npmrc'), this.destinationPath('.npmrc'));
   }

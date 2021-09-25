@@ -1,14 +1,7 @@
 import Generator from 'yeoman-generator';
+import { IGeneratorOptions } from '@wyntau/generator-shared';
 
-export interface IOptions {
-  toolchainTypescript: boolean;
-  toolchainPrettier: boolean;
-
-  targetReact: boolean;
-  targetReactWithHooks: boolean;
-
-  targetVue: boolean;
-
+export interface IOptions extends IGeneratorOptions {
   withMonorepo: boolean;
 }
 
