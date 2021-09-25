@@ -6,6 +6,9 @@
   "repository": "git@github.com:wyntau/yeoman-generators.git",
   "author": "wyntau <github@wtliu.com>",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "prepublishOnly": "npm run clean && npm run build",
     "clean": "rm -rf dist",
