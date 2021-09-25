@@ -1,5 +1,5 @@
 import Generator from 'yeoman-generator';
-import { IGeneratorOptions } from '@wyntau/generator-shared';
+import { IGeneratorOptions, GeneratorOptions } from '@wyntau/generator-shared';
 
 export interface IOptions extends IGeneratorOptions {
   withMonorepo: boolean;
@@ -15,8 +15,16 @@ export default class GeneratorToolchainEslint extends Generator<IOptions> {
 
   constructor(args: string | string[], options: IOptions) {
     super(args, options);
-    this.option('toolchain-typescript', { type: Boolean, description: '启用 typescript 支持', default: true });
-    this.option('toolchain-prettier', { type: Boolean, description: '启用 prettier 支持', default: true });
+    this.option(GeneratorOptions.toolchainTypescript.optionKey, {
+      type: Boolean,
+      description: GeneratorOptions.toolchainTypescript.message,
+      default: true,
+    });
+    this.option(GeneratorOptions.toolchainPrettier.optionKey, {
+      type: Boolean,
+      description: GeneratorOptions.toolchainPrettier.message,
+      default: true,
+    });
     this.option('with-monorepo', { type: Boolean, description: '启用 monorepo 支持', default: false });
   }
 
@@ -24,29 +32,29 @@ export default class GeneratorToolchainEslint extends Generator<IOptions> {
     this.props = await this.prompt<IProps>([
       {
         type: 'confirm',
-        name: 'options.toolchainTypescript',
-        message: '启用 typescript 支持',
+        name: GeneratorOptions.toolchainTypescript.promptKey,
+        message: GeneratorOptions.toolchainTypescript.message,
         default: this.options.toolchainTypescript ?? true,
         when: this.options.toolchainTypescript === undefined || this.options.toolchainTypescript === null,
       },
       {
         type: 'confirm',
-        name: 'options.toolchainPrettier',
-        message: '启用 prettier 支持',
+        name: GeneratorOptions.toolchainPrettier.promptKey,
+        message: GeneratorOptions.toolchainPrettier.message,
         default: this.options.toolchainPrettier ?? true,
         when: this.options.toolchainPrettier === undefined || this.options.toolchainPrettier === null,
       },
       {
         type: 'confirm',
-        name: 'options.targetReact',
-        message: '启用 react 支持',
+        name: GeneratorOptions.targetReact.promptKey,
+        message: GeneratorOptions.targetReact.message,
         default: this.options.targetReact ?? false,
         when: this.options.targetReact === undefined || this.options.targetReact === null,
       },
       {
         type: 'confirm',
-        name: 'options.targetVue',
-        message: '启用 vue 支持',
+        name: GeneratorOptions.targetVue.promptKey,
+        message: GeneratorOptions.targetVue.message,
         default: this.options.targetVue ?? false,
         when: (answers) =>
           (this.options.targetVue === undefined || this.options.targetVue === null) &&
