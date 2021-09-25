@@ -5,6 +5,12 @@
   "tasks": [
     { "type": "npm", "script": "build", "group": "build" },
     { "type": "npm", "script": "clean", "group": "build" },
-    { "type": "npm", "script": "watch", "group": "build" }
+    { "type": "npm", "script": "watch", "group": "build" },
+    {
+      "type": "shell",
+      "command": "npx lerna publish --registry https://registry.npmjs.org",
+      "label": "项目发布",
+      "group": "build"
+    }
   ]
 }
