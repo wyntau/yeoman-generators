@@ -77,6 +77,9 @@ export default class GeneratorToolchainEslint extends Generator<IOptions> {
 
     devDependencies.push('eslint');
     this.fs.copy(this.templatePath('.'), this.destinationPath('.'), { globOptions: { dot: true } });
+    this.fs.extendJSON(this.destinationPath('package.json'), {
+      scripts: { eslint: 'DEBUG=eslint:cli-engine eslint .', 'eslint-fix': 'DEBUG=eslint:cli-engine eslint --fix .' },
+    });
 
     if (!this.options.toolchainTypescript && !this.options.withMonorepo && !this.options.toolchainPrettier) {
       return;
