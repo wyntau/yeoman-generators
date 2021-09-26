@@ -1,3 +1,5 @@
+import { KebabCase } from 'type-fest';
+
 export interface IGeneratorOptions {
   /** 启用 npm */
   toolchainNpm: boolean;
@@ -40,16 +42,10 @@ export interface IGeneratorOptions {
   targetMmp: boolean;
 }
 
-export type OptionKeyOf<T> = T extends `toolchain${infer S}`
-  ? `toolchain-${Uncapitalize<S>}`
-  : T extends `target${infer S}`
-  ? `target-${Uncapitalize<S>}`
-  : never;
-export type PromptKeyOf<T extends string> = `options.${T}`;
 export type GeneratorOptionsType<T extends string> = {
   [P in T]: {
-    optionKey: OptionKeyOf<P>;
-    promptKey: PromptKeyOf<P>;
+    optionKey: KebabCase<P>;
+    promptKey: `options.${P}`;
     message: string;
   };
 };
@@ -75,7 +71,7 @@ export const GeneratorOptions: GeneratorOptionsType<keyof IGeneratorOptions> = {
   },
   toolchainHusky: { optionKey: 'toolchain-husky', promptKey: 'options.toolchainHusky', message: '启用 husky' },
   toolchainLintStaged: {
-    optionKey: 'toolchain-lintStaged',
+    optionKey: 'toolchain-lint-staged',
     promptKey: 'options.toolchainLintStaged',
     message: '启用 lint-staged',
   },
@@ -85,7 +81,7 @@ export const GeneratorOptions: GeneratorOptionsType<keyof IGeneratorOptions> = {
     message: '启用 commitlint',
   },
   toolchainPatchPackage: {
-    optionKey: 'toolchain-patchPackage',
+    optionKey: 'toolchain-patch-package',
     promptKey: 'options.toolchainPatchPackage',
     message: '启用 patch-package',
   },
