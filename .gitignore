@@ -3,6 +3,7 @@ node_modules
 
 package-lock.json
 yarn-error.log
+lerna-debug.log
 
 # compiled files
 **/generators/app/*.js
