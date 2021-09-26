@@ -32,7 +32,8 @@
     "ci:eslint": "scripts/ci/run eslint",
     "eslint": "DEBUG=eslint:cli-engine eslint .",
     "eslint-fix": "DEBUG=eslint:cli-engine eslint --fix .",
-    "prepare": "husky install || exit 0"
+    "prepare": "husky install || exit 0",
+    "test": "tsc --noEmit && npm run eslint"
   },
   "engines": {
     "npm": "use-yarn-please"
