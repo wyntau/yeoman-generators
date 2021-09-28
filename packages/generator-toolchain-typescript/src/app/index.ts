@@ -9,6 +9,6 @@ export default class extends Generator<IGeneratorOptions> {
   }
 
   end(): void {
-    this.log(['', `✨  请通过 \`${chalk.red('npx tsc --init')}\` 初始化 tsconfig.json`, ''].join('\n'));
+    this.log(`✨  请通过 \`${chalk.red('npx tsc --init')}\` 初始化 tsconfig.json`);
   }
 }
