@@ -1,19 +1,20 @@
 import Generator from 'yeoman-generator';
 import { IGeneratorOptions, GeneratorOptions } from '@wyntau/generator-shared';
 
-export interface IOptions extends IGeneratorOptions {
+export interface IGeneratorToolchainEslintOptions
+  extends Pick<IGeneratorOptions, 'toolchainTypescript' | 'toolchainPrettier' | 'targetReact' | 'targetVue'> {
   withMonorepo: boolean;
 }
 
 export interface IProps {
-  options?: IOptions;
+  options?: IGeneratorToolchainEslintOptions;
   [x: string]: any;
 }
 
-export default class GeneratorToolchainEslint extends Generator<IOptions> {
+export default class GeneratorToolchainEslint extends Generator<IGeneratorToolchainEslintOptions> {
   props: IProps = {};
 
-  constructor(args: string | string[], options: IOptions) {
+  constructor(args: string | string[], options: IGeneratorToolchainEslintOptions) {
     super(args, options);
     this.option(GeneratorOptions.toolchainTypescript.optionKey, {
       type: Boolean,
