@@ -99,6 +99,6 @@ export const GeneratorOptions: GeneratorOptionsType<keyof IGeneratorOptions> = {
 export default class GeneratorShared extends Generator<IGeneratorOptions> {
   end(): void {
     const initCommand = this.options.toolchainYarn ? 'yarn init' : 'npm init';
-    this.log(['', `✨  请通过 \`${chalk.red(initCommand)}\` 补充项目信息`, ''].join('\n'));
+    this.log(`✨  请通过 \`${chalk.red(initCommand)}\` 补充项目信息`);
   }
 }
