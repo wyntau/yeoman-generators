@@ -2,7 +2,9 @@ import Generator from 'yeoman-generator';
 import chalk from 'chalk';
 import { IGeneratorOptions } from '@wyntau/generator-shared';
 
-export default class extends Generator<IGeneratorOptions> {
+export type IGeneratorToolchainNpmOptions = Pick<IGeneratorOptions, 'toolchainNpm'>;
+
+export default class GeneratorToolchainNpm extends Generator<IGeneratorToolchainNpmOptions> {
   end(): void {
     if (!this.options.toolchainNpm) {
       return;
