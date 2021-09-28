@@ -4,13 +4,14 @@ import { IGeneratorToolchainEslintOptions } from '@wyntau/generator-toolchain-es
 
 export default class extends Generator<IGeneratorOptions> {
   default(): void {
+    this.composeWith(require.resolve('@wyntau/generator-shared/generators/app'), { toolchainYarn: true });
     this.composeWith(require.resolve('@wyntau/generator-toolchain-npm/generators/app'));
     this.composeWith(require.resolve('@wyntau/generator-toolchain-nvm/generators/app'));
     this.composeWith(require.resolve('@wyntau/generator-toolchain-yarn/generators/app'));
 
     this.composeWith(require.resolve('@wyntau/generator-toolchain-typescript/generators/app'));
 
-    this.composeWith(require.resolve('@wyntau/generator-toolchain-pretter/generators/app'));
+    this.composeWith(require.resolve('@wyntau/generator-toolchain-prettier/generators/app'));
     this.composeWith(require.resolve('@wyntau/generator-toolchain-eslint/generators/app'), {
       toolchainTypescript: true,
       toolchainPrettier: true,

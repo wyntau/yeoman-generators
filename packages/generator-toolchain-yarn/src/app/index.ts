@@ -1,5 +1,4 @@
 import Generator from 'yeoman-generator';
-import chalk from 'chalk';
 
 export default class extends Generator {
   initializing(): void {
@@ -14,9 +13,5 @@ export default class extends Generator {
         npm: 'use-yarn-please',
       },
     });
-  }
-
-  end(): void {
-    this.log(['', `✨  初始化完毕, 请通过 \`${chalk.red('yarn init')}\` 补充项目信息`, ''].join('\n'));
   }
 }
