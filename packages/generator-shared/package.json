@@ -2,12 +2,12 @@
   "name": "@wyntau/generator-shared",
   "version": "0.0.4",
   "description": "generator shared misc",
-  "main": "dist/index.js",
+  "main": "generators/app/index.js",
   "repository": "git@github.com:wyntau/yeoman-generators.git",
   "author": "wyntau <github@wtliu.com>",
   "license": "MIT",
   "files": [
-    "dist"
+    "generators"
   ],
   "scripts": {
     "prepublishOnly": "npm run clean && npm run build",
