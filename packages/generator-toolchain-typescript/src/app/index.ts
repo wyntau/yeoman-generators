@@ -6,14 +6,16 @@ import ora from 'ora';
 export default class extends Generator<IGeneratorOptions> {
   async writing(): Promise<void> {
     const devDependencies = ['typescript'];
-    ora.promise(this.addDevDependencies(devDependencies), {
-      text: `Resolving package devDependencies ${chalk.red(devDependencies.join(', '))}`,
-    });
+    const dependencies = ['tslib'];
 
-    const dependencies = ['typescript'];
-    ora.promise(this.addDependencies(dependencies), {
-      text: `Resolving package dependencies ${chalk.red(dependencies.join(', '))}`,
-    });
+    const spinner = ora(
+      `Resolving package devDependencies ${chalk.red(devDependencies.join(', '))}, dependencies ${chalk.red(
+        dependencies.join(', ')
+      )}`
+    ).start();
+    await this.addDevDependencies(devDependencies);
+    await this.addDependencies(dependencies);
+    spinner.succeed();
   }
 
   end(): void {

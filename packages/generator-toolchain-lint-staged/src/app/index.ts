@@ -10,8 +10,8 @@ export default class extends Generator<IGeneratorOptions> {
     });
 
     const devDependencies = ['lint-staged'];
-    ora.promise(this.addDevDependencies(devDependencies), {
-      text: `Resolving package devDependencies ${chalk.red(devDependencies.join(', '))}`,
-    });
+    const spinner = ora(`Resolving package devDependencies ${chalk.red(devDependencies.join(', '))}`).start();
+    await this.addDevDependencies(devDependencies);
+    spinner.succeed();
   }
 }

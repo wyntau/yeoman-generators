@@ -7,8 +7,8 @@ export default class extends Generator {
     this.fs.copy(this.templatePath('.'), this.destinationPath('.'), { globOptions: { dot: true } });
 
     const devDependencies = ['prettier'];
-    ora.promise(this.addDevDependencies(devDependencies), {
-      text: `Resolving package devDependencies ${chalk.red(devDependencies.join(', '))}`,
-    });
+    const spinner = ora(`Resolving package devDependencies ${chalk.red(devDependencies.join(', '))}`).start();
+    await this.addDevDependencies(devDependencies);
+    spinner.succeed();
   }
 }
