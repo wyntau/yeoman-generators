@@ -1,0 +1,43 @@
+{
+  "name": "@wyntau/generator-starter-typescript",
+  "version": "0.0.4",
+  "description": "yeoman generator for starter typescript",
+  "main": "generators/app/index.js",
+  "repository": "git@github.com:wyntau/yeoman-generators.git",
+  "author": "wyntau <github@wtliu.com>",
+  "license": "MIT",
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "@wyntau/generator-shared": "^0.0.4",
+    "@wyntau/generator-toolchain-commitlint": "^0.0.4",
+    "@wyntau/generator-toolchain-eslint": "^0.0.4",
+    "@wyntau/generator-toolchain-husky": "^0.0.4",
+    "@wyntau/generator-toolchain-lint-staged": "^0.0.4",
+    "@wyntau/generator-toolchain-npm": "^0.0.4",
+    "@wyntau/generator-toolchain-nvm": "^0.0.4",
+    "@wyntau/generator-toolchain-patch-package": "^0.0.4",
+    "@wyntau/generator-toolchain-prettier": "^0.0.4",
+    "@wyntau/generator-toolchain-typescript": "^0.0.4",
+    "@wyntau/generator-toolchain-yarn": "^0.0.4",
+    "tslib": "^2.3.1",
+    "yeoman-generator": "^5.4.2"
+  },
+  "scripts": {
+    "prepublishOnly": "npm run clean && npm run build",
+    "clean": "rm -rf generators/app/*.{js,d.ts}",
+    "watch": "tsc -w",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
+}
