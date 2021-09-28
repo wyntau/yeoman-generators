@@ -2,6 +2,10 @@
   "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
+  },
+  "search.exclude": {
+    "**/generators/app/*.js": true,
+    "**/generators/app/*.d.ts": true
   }
   // "files.exclude": {
   //   "**/generators/app/*.js": true,
