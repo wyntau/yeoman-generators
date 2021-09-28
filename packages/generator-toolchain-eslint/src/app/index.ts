@@ -1,5 +1,7 @@
 import Generator from 'yeoman-generator';
 import { IGeneratorOptions, GeneratorOptions } from '@wyntau/generator-shared';
+import ora from 'ora';
+import chalk from 'chalk';
 
 export interface IGeneratorToolchainEslintOptions
   extends Pick<IGeneratorOptions, 'toolchainTypescript' | 'toolchainPrettier' | 'targetReact' | 'targetVue'> {
@@ -124,6 +126,9 @@ export default class GeneratorToolchainEslint extends Generator<IGeneratorToolch
     }
 
     this.fs.writeJSON(this.destinationPath('.eslintrc.json'), eslintJson);
-    await this.addDevDependencies(devDependencies);
+
+    ora.promise(this.addDevDependencies(devDependencies), {
+      text: `Resolving package devDependencies ${chalk.red(devDependencies.join(', '))}`,
+    });
   }
 }
