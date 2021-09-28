@@ -16,8 +16,10 @@
     "build": "tsc"
   },
   "dependencies": {
+    "chalk": "^4.1.2",
     "tslib": "^2.3.1",
-    "type-fest": "^2.3.4"
+    "type-fest": "^2.3.4",
+    "yeoman-generator": "^5.4.2"
   },
   "devDependencies": {
     "typescript": "^4.4.3"

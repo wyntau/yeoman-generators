@@ -1,4 +1,6 @@
 import { KebabCase } from 'type-fest';
+import Generator from 'yeoman-generator';
+import chalk from 'chalk';
 
 export interface IGeneratorOptions {
   /** 启用 npm */
@@ -93,3 +95,10 @@ export const GeneratorOptions: GeneratorOptionsType<keyof IGeneratorOptions> = {
   targetMp: { optionKey: 'target-mp', promptKey: 'options.targetMp', message: '目标 mp' },
   targetMmp: { optionKey: 'target-mmp', promptKey: 'options.targetMmp', message: '目标 mmp' },
 };
+
+export default class GeneratorShared extends Generator<IGeneratorOptions> {
+  end(): void {
+    const initCommand = this.options.toolchainYarn ? 'yarn init' : 'npm init';
+    this.log(['', `✨  请通过 \`${chalk.red(initCommand)}\` 补充项目信息`, ''].join('\n'));
+  }
+}
