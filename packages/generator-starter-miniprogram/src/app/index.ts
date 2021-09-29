@@ -49,9 +49,9 @@ export default class GeneratorMiniprogram extends Generator<IGeneratorMiniprogra
     this.composeWith(require.resolve('@wyntau/generator-toolchain-eslint/generators/app'), {
       toolchainTypescript: true,
       toolchainPrettier: true,
+      toolchainLerna: false,
       targetReact: false,
       targetVue: false,
-      withMonorepo: false,
     } as IGeneratorToolchainEslintOptions);
 
     this.composeWith(require.resolve('@wyntau/generator-toolchain-husky/generators/app'));
