@@ -3,10 +3,10 @@ import { IGeneratorOptions, GeneratorOptions } from '@wyntau/generator-shared';
 import ora from 'ora';
 import chalk from 'chalk';
 
-export interface IGeneratorToolchainEslintOptions
-  extends Pick<IGeneratorOptions, 'toolchainTypescript' | 'toolchainPrettier' | 'targetReact' | 'targetVue'> {
-  withMonorepo: boolean;
-}
+export type IGeneratorToolchainEslintOptions = Pick<
+  IGeneratorOptions,
+  'toolchainTypescript' | 'toolchainPrettier' | 'toolchainLerna' | 'targetReact' | 'targetVue'
+>;
 
 export interface IProps {
   options?: IGeneratorToolchainEslintOptions;
@@ -28,7 +28,11 @@ export default class GeneratorToolchainEslint extends Generator<IGeneratorToolch
       description: GeneratorOptions.toolchainPrettier.message,
       default: true,
     });
-    this.option('with-monorepo', { type: Boolean, description: '启用 monorepo 支持', default: false });
+    this.option(GeneratorOptions.toolchainLerna.optionKey, {
+      type: Boolean,
+      description: GeneratorOptions.toolchainLerna.message,
+      default: false,
+    });
   }
 
   async prompting(): Promise<void> {
@@ -49,6 +53,13 @@ export default class GeneratorToolchainEslint extends Generator<IGeneratorToolch
       },
       {
         type: 'confirm',
+        name: GeneratorOptions.toolchainLerna.promptKey,
+        message: GeneratorOptions.toolchainLerna.message,
+        default: this.options.toolchainLerna ?? true,
+        when: this.options.toolchainLerna === undefined || this.options.toolchainLerna === null,
+      },
+      {
+        type: 'confirm',
         name: GeneratorOptions.targetReact.promptKey,
         message: GeneratorOptions.targetReact.message,
         default: this.options.targetReact ?? false,
@@ -62,13 +73,6 @@ export default class GeneratorToolchainEslint extends Generator<IGeneratorToolch
         when: (answers) =>
           (this.options.targetVue === undefined || this.options.targetVue === null) &&
           answers.options?.targetReact !== true,
-      },
-      {
-        type: 'confirm',
-        name: 'options.withMonorepo',
-        message: '启用 monorepo 支持',
-        default: this.options.withMonorepo ?? false,
-        when: this.options.withMonorepo === undefined || this.options.withMonorepo === null,
       },
     ]);
 
@@ -84,7 +88,7 @@ export default class GeneratorToolchainEslint extends Generator<IGeneratorToolch
       scripts: { eslint: 'DEBUG=eslint:cli-engine eslint .', 'eslint-fix': 'DEBUG=eslint:cli-engine eslint --fix .' },
     });
 
-    if (!this.options.toolchainTypescript && !this.options.withMonorepo && !this.options.toolchainPrettier) {
+    if (!this.options.toolchainTypescript && !this.options.toolchainLerna && !this.options.toolchainPrettier) {
       return;
     }
 
@@ -121,7 +125,7 @@ export default class GeneratorToolchainEslint extends Generator<IGeneratorToolch
       eslintJson.extends.push('plugin:prettier/recommended');
     }
 
-    if (this.options.withMonorepo && this.options.toolchainTypescript) {
+    if (this.options.toolchainLerna && this.options.toolchainTypescript) {
       eslintJson.parserOptions.project.push('./packages/**/tsconfig.json');
     }
 
