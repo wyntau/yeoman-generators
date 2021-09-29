@@ -41,6 +41,8 @@ export default class GeneratorMiniprogram extends Generator<IGeneratorMiniprogra
     this.composeWith(require.resolve('@wyntau/generator-toolchain-yarn'));
     this.composeWith(require.resolve('@wyntau/generator-toolchain-nvm'));
 
+    this.composeWith(require.resolve('@wyntau/generator-toolchain-typescript/generators/app'));
+
     this.composeWith(require.resolve('@wyntau/generator-toolchain-prettier/generators/app'));
     this.composeWith(require.resolve('@wyntau/generator-toolchain-eslint/generators/app'), {
       toolchainTypescript: true,
