@@ -7,7 +7,7 @@ export default class GeneratorToolchainYarn extends Generator<IGeneratorToolchai
   initializing(): void {
     this.env.options.nodePackageManager = 'yarn';
 
-    this.option(GeneratorOptions.toolchainLerna.message, {
+    this.option(GeneratorOptions.toolchainLerna.optionKey, {
       type: Boolean,
       description: GeneratorOptions.toolchainLerna.message,
     });
