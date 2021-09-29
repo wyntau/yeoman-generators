@@ -1,0 +1,35 @@
+{
+  "name": "@wyntau/generator-toolchain-lerna",
+  "version": "0.0.4",
+  "description": "yeoman generator for toolchain lerna",
+  "main": "generators/app/index.js",
+  "repository": "git@github.com:wyntau/yeoman-generators.git",
+  "author": "wyntau <github@wtliu.com>",
+  "license": "MIT",
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "@wyntau/generator-shared": "^0.0.4",
+    "chalk": "^4.1.2",
+    "ora": "5.x",
+    "tslib": "^2.3.1",
+    "yeoman-generator": "^5.4.2"
+  },
+  "scripts": {
+    "prepublishOnly": "npm run clean && npm run build",
+    "clean": "rm -rf generators/app/*.{js,d.ts}",
+    "watch": "tsc -w",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
+}
