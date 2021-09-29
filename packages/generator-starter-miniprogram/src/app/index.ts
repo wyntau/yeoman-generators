@@ -1,6 +1,8 @@
 import Generator from 'yeoman-generator';
 import ora from 'ora';
 import chalk from 'chalk';
+import { IGeneratorOptions } from '@wyntau/generator-shared';
+import { IGeneratorToolchainEslintOptions } from '@wyntau/generator-toolchain-eslint';
 
 export interface IGeneratorMiniprogramOptions {
   appid: string;
@@ -31,6 +33,28 @@ export default class GeneratorMiniprogram extends Generator<IGeneratorMiniprogra
     ]);
 
     this.options = Object.assign({}, this.options, props);
+  }
+
+  default(): void {
+    this.composeWith(require.resolve('@wyntau/generator-shared'), { toolchainYarn: true } as IGeneratorOptions);
+    this.composeWith(require.resolve('@wyntau/generator-toolchain-npm'));
+    this.composeWith(require.resolve('@wyntau/generator-toolchain-yarn'));
+    this.composeWith(require.resolve('@wyntau/generator-toolchain-nvm'));
+
+    this.composeWith(require.resolve('@wyntau/generator-toolchain-prettier/generators/app'));
+    this.composeWith(require.resolve('@wyntau/generator-toolchain-eslint/generators/app'), {
+      toolchainTypescript: true,
+      toolchainPrettier: true,
+      targetReact: false,
+      targetVue: false,
+      withMonorepo: false,
+    } as IGeneratorToolchainEslintOptions);
+
+    this.composeWith(require.resolve('@wyntau/generator-toolchain-husky/generators/app'));
+    this.composeWith(require.resolve('@wyntau/generator-toolchain-commitlint/generators/app'));
+    this.composeWith(require.resolve('@wyntau/generator-toolchain-lint-staged/generators/app'));
+
+    this.composeWith(require.resolve('@wyntau/generator-toolchain-patch-package/generators/app'));
   }
 
   async writing(): Promise<void> {
