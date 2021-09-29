@@ -56,6 +56,7 @@ gulp.task('projectConfig', () => {
     .pipe(gulp.dest(distPath));
 });
 
+<% if(mmp){ %>
 gulp.task('mmpConfig', () => {
   return gulp
     .src(`mmp.config.json`)
@@ -63,6 +64,7 @@ gulp.task('mmpConfig', () => {
     .pipe(gulpReplace('__VERSION__', pkg.version))
     .pipe(gulp.dest(distPath))
 });
+<% } %>
 
 /* watch */
 gulp.task('watch', () => {
@@ -76,7 +78,7 @@ gulp.task(
   'build',
   gulp.series(
     'clean',
-    gulp.parallel('projectConfig', 'mmpConfig', 'extraFiles'),
+    gulp.parallel('projectConfig', <% if(mmp) { %>'mmpConfig', <% } %>'extraFiles'),
     gulp.parallel('rollupBuild', 'copyFiles', 'nodeModuleComponents')
   )
 );
