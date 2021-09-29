@@ -76,7 +76,7 @@ export default class GeneratorMiniprogram extends Generator<IGeneratorMiniprogra
       '@rollup/plugin-commonjs',
       '@rollup/plugin-node-resolve',
       '@rollup/plugin-replace',
-      'rollup-plugin-rename',
+      'rollup-plugin-rename@1.0.1',
       'rollup-plugin-terser',
       'fancy-log',
     ];
