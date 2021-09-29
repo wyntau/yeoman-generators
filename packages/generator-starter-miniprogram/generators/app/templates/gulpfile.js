@@ -4,10 +4,6 @@ const gulpReplace = require('gulp-replace');
 const { usingComponentsPathRewriter } = require('@wyntau/gulp-mp').plugins;
 const { nodeModulesComponentsPathFinder } = require('@wyntau/gulp-mp').tools;
 const { rollupWatch, rollupBuild, tjsEntries, distPath, miniprogramRoot } = require('./rollup.config');
-const glob = require('glob');
-const path = require('path');
-const fs = require('fs');
-const pkg = require('./package.json');
 
 gulp.task('rollupBuild', rollupBuild);
 gulp.task('rollupWatch', rollupWatch);
@@ -56,16 +52,6 @@ gulp.task('projectConfig', () => {
     .pipe(gulp.dest(distPath));
 });
 
-<% if(mmp){ %>
-gulp.task('mmpConfig', () => {
-  return gulp
-    .src(`mmp.config.json`)
-    .pipe(gulpReplace('dist/', ''))
-    .pipe(gulpReplace('__VERSION__', pkg.version))
-    .pipe(gulp.dest(distPath))
-});
-<% } %>
-
 /* watch */
 gulp.task('watch', () => {
   rollupWatch();
@@ -78,7 +64,7 @@ gulp.task(
   'build',
   gulp.series(
     'clean',
-    gulp.parallel('projectConfig', <% if(mmp) { %>'mmpConfig', <% } %>'extraFiles'),
+    gulp.parallel('projectConfig', 'extraFiles'),
     gulp.parallel('rollupBuild', 'copyFiles', 'nodeModuleComponents')
   )
 );

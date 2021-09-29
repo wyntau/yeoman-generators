@@ -15,8 +15,6 @@ export default class GeneratorMiniprogram extends Generator<IGeneratorMiniprogra
   initializing(): void {
     this.option('appid', { type: String, description: '微信小程序 appid' });
     this.option('project-name', { type: String, description: '项目名称' });
-    this.option('mmp', { type: Boolean, description: '添加 mmp 支持' });
-    this.option('mmp-appid', { type: String, description: 'mmp appid' });
   }
   async prompting(): Promise<void> {
     const props = await this.prompt([
@@ -33,20 +31,6 @@ export default class GeneratorMiniprogram extends Generator<IGeneratorMiniprogra
         message: '请输入微信小程序 appid',
         default: this.options.appid,
         when: this.options.projectName === null || this.options.projectName === undefined,
-      },
-      {
-        type: 'confirm',
-        name: 'mmp',
-        message: '添加 mmp 支持',
-        default: false,
-        when: this.options.mmp === null || this.options.mmp === undefined,
-      },
-      {
-        type: 'input',
-        name: 'mmpAppid',
-        message: 'mmp appid',
-        default: this.options.mmpAppid,
-        when: (answers) => (this.options.mmpAppid === null || this.options.mmpAppid === undefined) && answers.mmp,
       },
     ]);
 
@@ -81,23 +65,6 @@ export default class GeneratorMiniprogram extends Generator<IGeneratorMiniprogra
     this.fs.copyTpl(this.templatePath('.'), this.destinationPath('.'), this.options, undefined, {
       globOptions: { dot: true },
     });
-
-    if (this.options.mmp) {
-      this.fs.extendJSON(this.destinationPath('mmp.config.json'), {
-        name: this.options.projectName,
-        appid: this.options.mmpAppid,
-        description: this.options.projectName,
-        versionName: '__VERSION__',
-        versionCode: '',
-        miniprogramRoot: 'dist/',
-        libVersion: '5.10.8',
-        audits: false,
-        inner: false,
-        fusion: false,
-        shareSupported: false,
-        prefetchConfig: '{}',
-      });
-    }
 
     const devDependencies = [
       'miniprogram-api-typings',
