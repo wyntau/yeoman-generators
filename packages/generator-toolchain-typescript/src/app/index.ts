@@ -17,8 +17,4 @@ export default class extends Generator<IGeneratorOptions> {
     await this.addDependencies(dependencies);
     spinner.succeed();
   }
-
-  end(): void {
-    this.log(`✨  请通过 \`${chalk.red('npx tsc --init')}\` 初始化 tsconfig.json`);
-  }
 }
