@@ -31,6 +31,9 @@ export interface IGeneratorOptions {
   /** 启用 patch-package */
   toolchainPatchPackage: boolean;
 
+  /** 启用 lerna */
+  toolchainLerna: boolean;
+
   /** 启用 travis */
   toolchainTravis: boolean;
 
@@ -89,6 +92,7 @@ export const GeneratorOptions: GeneratorOptionsType<keyof IGeneratorOptions> = {
   },
   toolchainJest: { optionKey: 'toolchain-jest', promptKey: 'options.toolchainJest', message: '启用 jest' },
   toolchainTravis: { optionKey: 'toolchain-travis', promptKey: 'options.toolchainTravis', message: '启用 travis' },
+  toolchainLerna: { optionKey: 'toolchain-lerna', promptKey: 'options.toolchainLerna', message: '启用 lerna' },
 
   targetReact: { optionKey: 'target-react', promptKey: 'options.targetReact', message: '目标 react' },
   targetVue: { optionKey: 'target-vue', promptKey: 'options.targetVue', message: '目标 vue' },
