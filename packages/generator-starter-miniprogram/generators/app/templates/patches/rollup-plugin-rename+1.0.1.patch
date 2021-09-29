@@ -1,0 +1,36 @@
+diff --git a/node_modules/rollup-plugin-rename/dist/index.d.ts b/node_modules/rollup-plugin-rename/dist/index.d.ts
+index d45bcca..058f294 100644
+--- a/node_modules/rollup-plugin-rename/dist/index.d.ts
++++ b/node_modules/rollup-plugin-rename/dist/index.d.ts
+@@ -19,6 +19,10 @@ export interface IRenameExtensionsOptions {
+      * Extensions should include the dot for both input and output.
+      */
+     map: (name: string) => string;
++    /**
++     * match all files, includes the files includes /\0/
++     */
++    matchAll?: boolean;
+ }
+ export declare function isEmpty(array: any[] | undefined): boolean;
+ export declare function getRequireSource(node: any): Node | false;
+diff --git a/node_modules/rollup-plugin-rename/dist/index.js b/node_modules/rollup-plugin-rename/dist/index.js
+index 997a60d..89cf90f 100644
+--- a/node_modules/rollup-plugin-rename/dist/index.js
++++ b/node_modules/rollup-plugin-rename/dist/index.js
+@@ -61,7 +61,7 @@ function rename(options) {
+         generateBundle: function (_, bundle) {
+             var files = Object.entries(bundle);
+             var _loop_1 = function (key, file) {
+-                if (!filter(file.facadeModuleId)) {
++                if (!filter(file.facadeModuleId) && !(options.matchAll && /\0/.test(file.facadeModuleId))) {
+                     return "continue";
+                 }
+                 file.facadeModuleId = rewrite(file.facadeModuleId, options.map) || file.facadeModuleId;
+@@ -75,7 +75,6 @@ function rename(options) {
+                 if (file.code) {
+                     var magicString_1 = new magic_string_1.default(file.code);
+                     var ast = this_1.parse(file.code, {
+-                        ecmaVersion: 6,
+                         sourceType: 'module',
+                     });
+                     estree_walker_1.walk(ast, {

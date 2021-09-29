@@ -62,7 +62,24 @@ export default class GeneratorMiniprogram extends Generator<IGeneratorMiniprogra
       globOptions: { dot: true },
     });
 
-    const devDependencies = ['miniprogram-api-typings'];
+    const devDependencies = [
+      'miniprogram-api-typings',
+
+      'gulp',
+      'gulp-clean',
+      'gulp-replace',
+      '@wyntau/gulp-mp',
+      'glob',
+
+      'rollup',
+      '@rollup/plugin-typescript',
+      '@rollup/plugin-commonjs',
+      '@rollup/plugin-node-resolve',
+      '@rollup/plugin-replace',
+      'rollup-plugin-rename',
+      'rollup-plugin-terser',
+      'fancy-log',
+    ];
     const spinner = ora(`Resolving package devDependencies ${chalk.red(devDependencies.join(', '))}`).start();
     await this.addDevDependencies(devDependencies);
     spinner.succeed();
