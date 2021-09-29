@@ -9,7 +9,7 @@ export default class extends Generator<IGeneratorOptions> {
     const dependencies = ['tslib'];
 
     const spinner = ora(
-      `Resolving package devDependencies ${chalk.red(devDependencies.join(', '))}, dependencies ${chalk.red(
+      `Resolving devDependencies ${chalk.red(devDependencies.join(', '))}, dependencies ${chalk.red(
         dependencies.join(', ')
       )}`
     ).start();

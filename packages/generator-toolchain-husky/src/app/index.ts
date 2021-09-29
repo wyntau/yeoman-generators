@@ -8,7 +8,7 @@ export default class extends Generator {
 
     const devDependencies = ['husky'];
 
-    const spinner = ora(`Resolving package devDependencies ${chalk.red(devDependencies.join(', '))}`).start();
+    const spinner = ora(`Resolving devDependencies ${chalk.red(devDependencies.join(', '))}`).start();
     await this.addDevDependencies(devDependencies);
     spinner.succeed();
   }
