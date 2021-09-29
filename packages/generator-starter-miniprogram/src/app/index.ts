@@ -16,12 +16,14 @@ export default class GeneratorMiniprogram extends Generator<IGeneratorMiniprogra
     const props = await this.prompt([
       {
         type: 'input',
+        name: 'projectName',
         message: '请输入项目名称',
         default: this.options.projectName,
         when: this.options.projectName == null || this.options.projectName === undefined,
       },
       {
         type: 'input',
+        name: 'appid',
         message: '请输入微信小程序 appid',
         default: this.options.appid,
         when: this.options.projectName == null || this.options.projectName === undefined,
