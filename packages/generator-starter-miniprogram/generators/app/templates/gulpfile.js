@@ -20,7 +20,7 @@ gulp.task('extraFiles', () => {
 })
 
 const copyFiles = [
-  `${miniprogramRoot}/**/*.+(wxml|wxss|wxs|json|map)`,
+  `${miniprogramRoot}/**/*.+(wxml|wxss|scss|wxs|json|map)`,
   `${miniprogramRoot}/**/*.+(png|jpg|jpeg|gif|mp3)`
 ];
 gulp.task('copyFiles', () => {
