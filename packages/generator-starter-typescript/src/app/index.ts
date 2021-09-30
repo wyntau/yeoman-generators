@@ -1,30 +1,63 @@
 import Generator from 'yeoman-generator';
-import { IGeneratorOptions } from '@wyntau/generator-shared';
+import { IGeneratorOptions, GeneratorOptions } from '@wyntau/generator-shared';
 import { IGeneratorToolchainEslintOptions } from '@wyntau/generator-toolchain-eslint';
 import chalk from 'chalk';
 
-export default class extends Generator<IGeneratorOptions> {
+export type IGeneratorStarterTypescriptOptions = Pick<IGeneratorOptions, 'toolchainYarn' | 'targetReact' | 'targetVue'>;
+
+export default class GeneratorStarterTypescript extends Generator<IGeneratorStarterTypescriptOptions> {
+  constructor(args: string | string[], options: IGeneratorStarterTypescriptOptions) {
+    super(args, options);
+    this.option(GeneratorOptions.toolchainYarn.optionKey, {
+      type: Boolean,
+      description: GeneratorOptions.toolchainYarn.message,
+      default: true,
+    });
+    this.option(GeneratorOptions.targetReact.optionKey, {
+      type: Boolean,
+      description: GeneratorOptions.targetReact.message,
+      default: false,
+    });
+    this.option(GeneratorOptions.targetVue.optionKey, {
+      type: Boolean,
+      description: GeneratorOptions.targetVue.message,
+      default: false,
+    });
+  }
+
   default(): void {
-    this.composeWith(require.resolve('@wyntau/generator-shared/generators/app'), { toolchainYarn: true });
+    //#region shared
+    this.composeWith(require.resolve('@wyntau/generator-shared/generators/app'), {
+      toolchainYarn: this.options.toolchainYarn,
+    });
+    //#endregion
+
+    //#region npm related
     this.composeWith(require.resolve('@wyntau/generator-toolchain-npm/generators/app'));
     this.composeWith(require.resolve('@wyntau/generator-toolchain-nvm/generators/app'));
     this.composeWith(require.resolve('@wyntau/generator-toolchain-yarn/generators/app'));
+    //#endregion
 
+    //#region typescript
     this.composeWith(require.resolve('@wyntau/generator-toolchain-typescript/generators/app'));
+    //#endregion
 
+    //#region code quality
     this.composeWith(require.resolve('@wyntau/generator-toolchain-prettier/generators/app'));
     this.composeWith(require.resolve('@wyntau/generator-toolchain-eslint/generators/app'), {
       toolchainTypescript: true,
       toolchainPrettier: true,
-      targetReact: false,
-      targetVue: false,
+      targetReact: this.options.targetReact,
+      targetVue: this.options.targetVue,
     } as IGeneratorToolchainEslintOptions);
-
     this.composeWith(require.resolve('@wyntau/generator-toolchain-husky/generators/app'));
     this.composeWith(require.resolve('@wyntau/generator-toolchain-commitlint/generators/app'));
     this.composeWith(require.resolve('@wyntau/generator-toolchain-lint-staged/generators/app'));
+    //#endregion
 
+    //#region patches
     this.composeWith(require.resolve('@wyntau/generator-toolchain-patch-package/generators/app'));
+    //#endregion
   }
 
   end(): void {
