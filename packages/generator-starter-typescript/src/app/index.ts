@@ -3,7 +3,10 @@ import { IGeneratorOptions, GeneratorOptions } from '@wyntau/generator-shared';
 import { IGeneratorToolchainEslintOptions } from '@wyntau/generator-toolchain-eslint';
 import chalk from 'chalk';
 
-export type IGeneratorStarterTypescriptOptions = Pick<IGeneratorOptions, 'toolchainYarn' | 'targetReact' | 'targetVue'>;
+export type IGeneratorStarterTypescriptOptions = Pick<
+  IGeneratorOptions,
+  'toolchainYarn' | 'toolchainLerna' | 'targetReact' | 'targetVue'
+>;
 
 export default class GeneratorStarterTypescript extends Generator<IGeneratorStarterTypescriptOptions> {
   constructor(args: string | string[], options: IGeneratorStarterTypescriptOptions) {
@@ -12,6 +15,11 @@ export default class GeneratorStarterTypescript extends Generator<IGeneratorStar
       type: Boolean,
       description: GeneratorOptions.toolchainYarn.message,
       default: true,
+    });
+    this.option(GeneratorOptions.toolchainLerna.optionKey, {
+      type: Boolean,
+      description: GeneratorOptions.toolchainLerna.message,
+      default: false,
     });
     this.option(GeneratorOptions.targetReact.optionKey, {
       type: Boolean,
@@ -47,6 +55,7 @@ export default class GeneratorStarterTypescript extends Generator<IGeneratorStar
     this.composeWith(require.resolve('@wyntau/generator-toolchain-eslint/generators/app'), {
       toolchainTypescript: true,
       toolchainPrettier: true,
+      toolchainLerna: this.options.toolchainLerna,
       targetReact: this.options.targetReact,
       targetVue: this.options.targetVue,
     } as IGeneratorToolchainEslintOptions);
