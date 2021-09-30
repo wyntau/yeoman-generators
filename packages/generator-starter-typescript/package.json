@@ -17,6 +17,7 @@
     "@wyntau/generator-toolchain-commitlint": "^0.0.4",
     "@wyntau/generator-toolchain-eslint": "^0.0.4",
     "@wyntau/generator-toolchain-husky": "^0.0.4",
+    "@wyntau/generator-toolchain-lerna": "^0.0.4",
     "@wyntau/generator-toolchain-lint-staged": "^0.0.4",
     "@wyntau/generator-toolchain-npm": "^0.0.4",
     "@wyntau/generator-toolchain-nvm": "^0.0.4",

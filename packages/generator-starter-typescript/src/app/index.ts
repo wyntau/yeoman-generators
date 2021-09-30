@@ -1,6 +1,7 @@
 import Generator from 'yeoman-generator';
 import { IGeneratorOptions, GeneratorOptions } from '@wyntau/generator-shared';
 import { IGeneratorToolchainEslintOptions } from '@wyntau/generator-toolchain-eslint';
+import { IGeneratorToolchainLernaOptions } from '@wyntau/generator-toolchain-lerna';
 import chalk from 'chalk';
 
 export type IGeneratorStarterTypescriptOptions = Pick<
@@ -37,13 +38,20 @@ export default class GeneratorStarterTypescript extends Generator<IGeneratorStar
     //#region shared
     this.composeWith(require.resolve('@wyntau/generator-shared/generators/app'), {
       toolchainYarn: this.options.toolchainYarn,
-    });
+    } as IGeneratorOptions);
     //#endregion
 
     //#region npm related
     this.composeWith(require.resolve('@wyntau/generator-toolchain-npm/generators/app'));
     this.composeWith(require.resolve('@wyntau/generator-toolchain-nvm/generators/app'));
-    this.composeWith(require.resolve('@wyntau/generator-toolchain-yarn/generators/app'));
+    if (this.options.toolchainYarn) {
+      this.composeWith(require.resolve('@wyntau/generator-toolchain-yarn/generators/app'));
+    }
+    if (this.options.toolchainLerna) {
+      this.composeWith(require.resolve('@wyntau/generator-toolchain-lerna/generators/app'), {
+        toolchainYarn: this.options.toolchainYarn,
+      } as IGeneratorToolchainLernaOptions);
+    }
     //#endregion
 
     //#region typescript
