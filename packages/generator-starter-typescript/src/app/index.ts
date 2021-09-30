@@ -6,7 +6,7 @@ import chalk from 'chalk';
 
 export type IGeneratorStarterTypescriptOptions = Pick<
   IGeneratorOptions,
-  'toolchainYarn' | 'toolchainLerna' | 'targetReact' | 'targetVue'
+  'toolchainYarn' | 'toolchainLerna' | 'targetReact' | 'targetReactWithJsxRuntime' | 'targetVue'
 >;
 
 export default class GeneratorStarterTypescript extends Generator<IGeneratorStarterTypescriptOptions> {
@@ -25,6 +25,11 @@ export default class GeneratorStarterTypescript extends Generator<IGeneratorStar
     this.option(GeneratorOptions.targetReact.optionKey, {
       type: Boolean,
       description: GeneratorOptions.targetReact.message,
+      default: false,
+    });
+    this.option(GeneratorOptions.targetReactWithJsxRuntime.optionKey, {
+      type: Boolean,
+      description: GeneratorOptions.targetReactWithJsxRuntime.message,
       default: false,
     });
     this.option(GeneratorOptions.targetVue.optionKey, {
@@ -65,6 +70,7 @@ export default class GeneratorStarterTypescript extends Generator<IGeneratorStar
       toolchainPrettier: true,
       toolchainLerna: this.options.toolchainLerna,
       targetReact: this.options.targetReact,
+      targetReactWithJsxRuntime: this.options.targetReactWithJsxRuntime,
       targetVue: this.options.targetVue,
     } as IGeneratorToolchainEslintOptions);
     this.composeWith(require.resolve('@wyntau/generator-toolchain-husky/generators/app'));

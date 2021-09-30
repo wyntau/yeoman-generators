@@ -39,6 +39,8 @@ export interface IGeneratorOptions {
 
   /** 目标 react 技术栈 */
   targetReact: boolean;
+  /** 目标 react 支持栈, 使用 jsx-runtime */
+  targetReactWithJsxRuntime: boolean;
   /** 目标 vue 技术栈 */
   targetVue: boolean;
   /** 目标 miniprogram 微信小程序技术栈 */
@@ -95,6 +97,11 @@ export const GeneratorOptions: GeneratorOptionsType<keyof IGeneratorOptions> = {
   toolchainLerna: { optionKey: 'toolchain-lerna', promptKey: 'options.toolchainLerna', message: '启用 lerna' },
 
   targetReact: { optionKey: 'target-react', promptKey: 'options.targetReact', message: '目标 react' },
+  targetReactWithJsxRuntime: {
+    optionKey: 'target-react-with-jsx-runtime',
+    promptKey: 'options.targetReactWithJsxRuntime',
+    message: '目标 react, 使用 jsx-runtime',
+  },
   targetVue: { optionKey: 'target-vue', promptKey: 'options.targetVue', message: '目标 vue' },
   targetMp: { optionKey: 'target-mp', promptKey: 'options.targetMp', message: '目标 mp' },
   targetMmp: { optionKey: 'target-mmp', promptKey: 'options.targetMmp', message: '目标 mmp' },

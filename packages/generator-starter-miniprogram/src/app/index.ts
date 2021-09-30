@@ -51,6 +51,7 @@ export default class GeneratorMiniprogram extends Generator<IGeneratorMiniprogra
       toolchainPrettier: true,
       toolchainLerna: false,
       targetReact: false,
+      targetReactWithJsxRuntime: false,
       targetVue: false,
     } as IGeneratorToolchainEslintOptions);
 

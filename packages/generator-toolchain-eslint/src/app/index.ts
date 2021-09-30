@@ -5,7 +5,12 @@ import chalk from 'chalk';
 
 export type IGeneratorToolchainEslintOptions = Pick<
   IGeneratorOptions,
-  'toolchainTypescript' | 'toolchainPrettier' | 'toolchainLerna' | 'targetReact' | 'targetVue'
+  | 'toolchainTypescript'
+  | 'toolchainPrettier'
+  | 'toolchainLerna'
+  | 'targetReact'
+  | 'targetReactWithJsxRuntime'
+  | 'targetVue'
 >;
 
 export interface IProps {
@@ -67,6 +72,13 @@ export default class GeneratorToolchainEslint extends Generator<IGeneratorToolch
       },
       {
         type: 'confirm',
+        name: GeneratorOptions.targetReactWithJsxRuntime.promptKey,
+        message: GeneratorOptions.targetReactWithJsxRuntime.message,
+        default: this.options.targetReactWithJsxRuntime ?? false,
+        when: this.options.targetReactWithJsxRuntime === undefined || this.options.targetReactWithJsxRuntime === null,
+      },
+      {
+        type: 'confirm',
         name: GeneratorOptions.targetVue.promptKey,
         message: GeneratorOptions.targetVue.message,
         default: this.options.targetVue ?? false,
@@ -104,9 +116,17 @@ export default class GeneratorToolchainEslint extends Generator<IGeneratorToolch
       eslintJson.extends.push('plugin:@typescript-eslint/recommended');
     }
 
-    if (this.options.targetReact) {
+    if (this.options.targetReact || this.options.targetReactWithJsxRuntime) {
       devDependencies.push('eslint-plugin-react', 'eslint-plugin-react-hooks');
-      eslintJson.extends.push('plugin:react/recommended', 'plugin:react-hooks/recommended');
+      if (this.options.targetReactWithJsxRuntime) {
+        eslintJson.extends.push(
+          'plugin:react/recommended',
+          'plugin:react/jsx-runtime',
+          'plugin:react-hooks/recommended'
+        );
+      } else {
+        eslintJson.extends.push('plugin:react/recommended', 'plugin:react-hooks/recommended');
+      }
     }
 
     if (this.options.targetVue) {
