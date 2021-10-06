@@ -43,10 +43,6 @@ export interface IGeneratorOptions {
   targetReactWithJsxRuntime: boolean;
   /** 目标 vue 技术栈 */
   targetVue: boolean;
-  /** 目标 miniprogram 微信小程序技术栈 */
-  targetMp: boolean;
-  /** 目标 mmp 美团小程序技术栈 */
-  targetMmp: boolean;
 }
 
 export type GeneratorOptionsType<T extends string> = {
@@ -103,8 +99,6 @@ export const GeneratorOptions: GeneratorOptionsType<keyof IGeneratorOptions> = {
     message: '目标 react, 使用 jsx-runtime',
   },
   targetVue: { optionKey: 'target-vue', promptKey: 'options.targetVue', message: '目标 vue' },
-  targetMp: { optionKey: 'target-mp', promptKey: 'options.targetMp', message: '目标 mp' },
-  targetMmp: { optionKey: 'target-mmp', promptKey: 'options.targetMmp', message: '目标 mmp' },
 };
 
 export default class GeneratorShared extends Generator<IGeneratorOptions> {
