@@ -19,7 +19,7 @@ export default class GeneratorToolchainYarn extends Generator<IGeneratorToolchai
         type: 'confirm',
         name: GeneratorOptions.toolchainLerna.promptKey,
         message: GeneratorOptions.toolchainLerna.message,
-        default: this.options.toolchainLerna ?? true,
+        default: this.options.toolchainLerna ?? false,
         when: this.options.toolchainLerna === undefined || this.options.toolchainLerna === null,
       },
     ]);

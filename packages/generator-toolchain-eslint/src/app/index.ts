@@ -60,7 +60,7 @@ export default class GeneratorToolchainEslint extends Generator<IGeneratorToolch
         type: 'confirm',
         name: GeneratorOptions.toolchainLerna.promptKey,
         message: GeneratorOptions.toolchainLerna.message,
-        default: this.options.toolchainLerna ?? true,
+        default: this.options.toolchainLerna ?? false,
         when: this.options.toolchainLerna === undefined || this.options.toolchainLerna === null,
       },
       {
