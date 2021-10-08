@@ -98,5 +98,5 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   "include": ["packages"],
-  "exclude": ["packages/**/generators/app/templates"]
+  "exclude": ["packages/**/generators"]
 }
