@@ -1,6 +1,6 @@
 {
   "name": "@wyntau/generator-toolchain-npm",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "yeoman generator for toolchain npm",
   "main": "generators/app/index.js",
   "repository": "git@github.com:wyntau/yeoman-generators.git",
@@ -13,7 +13,7 @@
     "yeoman-generator"
   ],
   "dependencies": {
-    "@wyntau/generator-shared": "^0.0.4",
+    "@wyntau/generator-shared": "^0.1.0",
     "tslib": "^2.3.1",
     "yeoman-generator": "^5.4.2"
   },
