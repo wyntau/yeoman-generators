@@ -13,17 +13,7 @@
     "yeoman-generator"
   ],
   "dependencies": {
-    "@wyntau/generator-shared": "^0.0.4",
-    "@wyntau/generator-toolchain-commitlint": "^0.0.4",
-    "@wyntau/generator-toolchain-eslint": "^0.0.4",
-    "@wyntau/generator-toolchain-husky": "^0.0.4",
-    "@wyntau/generator-toolchain-lint-staged": "^0.0.4",
-    "@wyntau/generator-toolchain-npm": "^0.0.4",
-    "@wyntau/generator-toolchain-nvm": "^0.0.4",
-    "@wyntau/generator-toolchain-patch-package": "^0.0.4",
-    "@wyntau/generator-toolchain-prettier": "^0.0.4",
-    "@wyntau/generator-toolchain-typescript": "^0.0.4",
-    "@wyntau/generator-toolchain-yarn": "^0.0.4",
+    "@wyntau/generator-starter-typescript": "^0.0.4",
     "chalk": "^4.1.2",
     "ora": "5.x",
     "tslib": "^2.3.1",

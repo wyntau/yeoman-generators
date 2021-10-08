@@ -1,14 +1,11 @@
 import Generator from 'yeoman-generator';
 import ora from 'ora';
 import chalk from 'chalk';
-import { IGeneratorOptions } from '@wyntau/generator-shared';
-import { IGeneratorToolchainEslintOptions } from '@wyntau/generator-toolchain-eslint';
+import { IGeneratorStarterTypescriptOptions } from '@wyntau/generator-starter-typescript';
 
 export interface IGeneratorMiniprogramOptions {
   appid: string;
   projectName: string;
-  mmp: boolean;
-  mmpAppid: string;
 }
 
 export default class GeneratorMiniprogram extends Generator<IGeneratorMiniprogramOptions> {
@@ -38,28 +35,13 @@ export default class GeneratorMiniprogram extends Generator<IGeneratorMiniprogra
   }
 
   default(): void {
-    this.composeWith(require.resolve('@wyntau/generator-shared'), { toolchainYarn: true } as IGeneratorOptions);
-    this.composeWith(require.resolve('@wyntau/generator-toolchain-npm'));
-    this.composeWith(require.resolve('@wyntau/generator-toolchain-yarn'));
-    this.composeWith(require.resolve('@wyntau/generator-toolchain-nvm'));
-
-    this.composeWith(require.resolve('@wyntau/generator-toolchain-typescript/generators/app'));
-
-    this.composeWith(require.resolve('@wyntau/generator-toolchain-prettier/generators/app'));
-    this.composeWith(require.resolve('@wyntau/generator-toolchain-eslint/generators/app'), {
-      toolchainTypescript: true,
-      toolchainPrettier: true,
+    this.composeWith(require.resolve('@wyntau/generator-starter-typescript/generators/app'), {
+      toolchainYarn: true,
       toolchainLerna: false,
       targetReact: false,
       targetReactWithJsxRuntime: false,
       targetVue: false,
-    } as IGeneratorToolchainEslintOptions);
-
-    this.composeWith(require.resolve('@wyntau/generator-toolchain-husky/generators/app'));
-    this.composeWith(require.resolve('@wyntau/generator-toolchain-commitlint/generators/app'));
-    this.composeWith(require.resolve('@wyntau/generator-toolchain-lint-staged/generators/app'));
-
-    this.composeWith(require.resolve('@wyntau/generator-toolchain-patch-package/generators/app'));
+    } as IGeneratorStarterTypescriptOptions);
   }
 
   async writing(): Promise<void> {
